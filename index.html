@@ -2,92 +2,110 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>跳转示例</title>
+    <title>跳转流程</title>
     <script>
         // 存储最终目标URL
         const finalDestination = "https://baidu.com";
         
-        // 第一步：记录用户访问并设置cookie
-        document.cookie = "visited=true; path=/; max-age=3600";
+        // 第一步：显示"加载中"页面
+        document.body.innerHTML = `
+            <style>
+                body {
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    background-color: #f0f0f0;
+                }
+                .loading-page {
+                    text-align: center;
+                    padding: 30px;
+                    background: white;
+                    border-radius: 10px;
+                    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+                }
+                .progress-bar {
+                    width: 300px;
+                    height: 5px;
+                    background-color: #ddd;
+                    margin: 20px auto;
+                    border-radius: 3px;
+                    overflow: hidden;
+                }
+                .progress {
+                    height: 100%;
+                    width: 0%;
+                    background-color: #07c160;
+                    animation: progress 0.2s linear forwards;
+                }
+                @keyframes progress {
+                    from { width: 0%; }
+                    to { width: 100%; }
+                }
+            </style>
+            <div class="loading-page">
+                <h2>正在准备跳转</h2>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <p>即将访问微信官网...</p>
+            </div>
+        `;
         
-        // 第二步：显示微信官网的视觉模拟（非实际跳转）
-        setTimeout(function() {
+        // 0.2秒后显示模拟的微信页面
+        setTimeout(() => {
             document.body.innerHTML = `
                 <style>
-                    body { margin: 0; overflow: hidden; }
-                    .wechat-mock { 
-                        width: 100%; 
-                        height: 100vh; 
-                        background-color: #f0f0f0; 
-                        display: flex; 
-                        justify-content: center; 
-                        align-items: center;
+                    body {
+                        margin: 0;
                         font-family: Arial, sans-serif;
+                        background-color: #f8f8f8;
                     }
-                    .loading {
+                    .wechat-header {
+                        background-color: #07c160;
+                        color: white;
                         text-align: center;
+                        padding: 15px;
+                        font-size: 20px;
+                    }
+                    .wechat-content {
                         padding: 20px;
-                        background: white;
-                        border-radius: 10px;
-                        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                        text-align: center;
+                    }
+                    .wechat-logo {
+                        width: 100px;
+                        height: 100px;
+                        background-color: #07c160;
+                        border-radius: 20px;
+                        margin: 30px auto;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: white;
+                        font-size: 40px;
+                    }
+                    .wechat-text {
+                        margin-top: 20px;
+                        color: #333;
                     }
                 </style>
-                <div class="wechat-mock">
-                    <div class="loading">
-                        <h3>微信官网</h3>
-                        <p>正在加载中...</p>
-                        <div style="width: 100px; height: 3px; background: #ccc; margin: 10px auto;">
-                            <div style="width: 60%; height: 100%; background: #07c160;"></div>
-                        </div>
-                    </div>
+                <div class="wechat-header">微信</div>
+                <div class="wechat-content">
+                    <div class="wechat-logo">微</div>
+                    <div class="wechat-text">连接世界的桥梁</div>
                 </div>
             `;
             
-            // 第三步：0.1秒后跳转到过渡页面（使用JavaScript模拟）
-            setTimeout(function() {
-                document.body.innerHTML = `
-                    <style>
-                        body {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            height: 100vh;
-                            margin: 0;
-                            background-color: #f0f0f0;
-                            font-family: Arial, sans-serif;
-                        }
-                        .container {
-                            text-align: center;
-                            padding: 30px;
-                            background: white;
-                            border-radius: 10px;
-                            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-                        }
-                        button {
-                            padding: 12px 30px;
-                            font-size: 18px;
-                            background-color: #07c160;
-                            color: white;
-                            border: none;
-                            cursor: pointer;
-                            border-radius: 5px;
-                            margin-top: 20px;
-                        }
-                        button:hover {
-                            background-color: #06a456;
-                        }
-                    </style>
-                    <div class="container">
-                        <h2>确认继续访问</h2>
-                        <p>你即将离开微信官网，前往百度网站</p>
-                        <button onclick="window.location.href='${finalDestination}'">继续访问</button>
-                    </div>
-                `;
-            }, 100); // 0.1秒后
-        }, 100); // 初始延迟0.1秒
+            // 2秒后跳转到过渡页面
+            setTimeout(() => {
+                window.location.href = "transition.html";
+            }, 2000);
+        }, 200); // 0.2秒延迟
     </script>
 </head>
 <body>
-    <p>正在处理请求...</p>
+    <!-- 初始内容会被JS替换 -->
 </body>
 </html>
