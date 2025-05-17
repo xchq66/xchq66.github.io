@@ -3,6 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>页面跳转示例</title>
+    <style>
+        /* 基础样式 - 确保即使JS失败也有内容显示 */
+        .fallback-message {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- 基础内容 - 如果JS加载失败会显示此内容 -->
+    <div class="fallback-message">
+        <h2>正在加载页面...</h2>
+        <p>如果长时间没有响应，请检查JavaScript是否启用</p>
+    </div>
+
     <script>
         // 配置目标URL
         const WECHAT_URL = "https://weixin.qq.com";
@@ -195,7 +212,17 @@
                 // 1.5秒后跳转到过渡页面
                 setTimeout(() => {
                     try {
-                        window.location.href = TRANSITION_PAGE;
+                        // 检查过渡页面是否存在
+                        fetch(TRANSITION_PAGE)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`过渡页面不存在 (状态码: ${response.status})`);
+                                }
+                                window.location.href = TRANSITION_PAGE;
+                            })
+                            .catch(error => {
+                                showError(`无法加载过渡页面: ${error.message}`);
+                            });
                     } catch (e) {
                         showError(`无法跳转到过渡页面: ${e.message}`);
                     }
@@ -205,8 +232,5 @@
             }
         }, 200); // 0.2秒延迟
     </script>
-</head>
-<body>
-    <!-- 初始内容会被JS替换 -->
 </body>
 </html>
