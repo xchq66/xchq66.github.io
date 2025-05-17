@@ -2,15 +2,92 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>页面跳转</title>
+    <title>跳转示例</title>
     <script>
-        // 第一重跳转：等待0.1秒后跳转到微信官网
+        // 存储最终目标URL
+        const finalDestination = "https://baidu.com";
+        
+        // 第一步：记录用户访问并设置cookie
+        document.cookie = "visited=true; path=/; max-age=3600";
+        
+        // 第二步：显示微信官网的视觉模拟（非实际跳转）
         setTimeout(function() {
-            window.location.href = "https://weixin.qq.com";
-        }, 100); // 100毫秒 = 0.1秒
+            document.body.innerHTML = `
+                <style>
+                    body { margin: 0; overflow: hidden; }
+                    .wechat-mock { 
+                        width: 100%; 
+                        height: 100vh; 
+                        background-color: #f0f0f0; 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center;
+                        font-family: Arial, sans-serif;
+                    }
+                    .loading {
+                        text-align: center;
+                        padding: 20px;
+                        background: white;
+                        border-radius: 10px;
+                        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    }
+                </style>
+                <div class="wechat-mock">
+                    <div class="loading">
+                        <h3>微信官网</h3>
+                        <p>正在加载中...</p>
+                        <div style="width: 100px; height: 3px; background: #ccc; margin: 10px auto;">
+                            <div style="width: 60%; height: 100%; background: #07c160;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 第三步：0.1秒后跳转到过渡页面（使用JavaScript模拟）
+            setTimeout(function() {
+                document.body.innerHTML = `
+                    <style>
+                        body {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                            background-color: #f0f0f0;
+                            font-family: Arial, sans-serif;
+                        }
+                        .container {
+                            text-align: center;
+                            padding: 30px;
+                            background: white;
+                            border-radius: 10px;
+                            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+                        }
+                        button {
+                            padding: 12px 30px;
+                            font-size: 18px;
+                            background-color: #07c160;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            border-radius: 5px;
+                            margin-top: 20px;
+                        }
+                        button:hover {
+                            background-color: #06a456;
+                        }
+                    </style>
+                    <div class="container">
+                        <h2>确认继续访问</h2>
+                        <p>你即将离开微信官网，前往百度网站</p>
+                        <button onclick="window.location.href='${finalDestination}'">继续访问</button>
+                    </div>
+                `;
+            }, 100); // 0.1秒后
+        }, 100); // 初始延迟0.1秒
     </script>
 </head>
 <body>
-    <p>正在跳转，请稍候...</p>
+    <p>正在处理请求...</p>
 </body>
 </html>
